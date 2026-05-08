@@ -268,6 +268,7 @@ body{
     font-size:14px;
     vertical-align:top;
     word-break:break-word;
+    white-space:normal;
 }
 
 .itbl tr:nth-child(even){
@@ -352,24 +353,52 @@ body{
 
 }
 
+/* MOBILE */
+
 @media(max-width:900px){
 
-    #hoja{
-        width:100%;
-        padding:20px;
+    #panel{
+        padding:15px;
     }
 
-    .info{
+    .g4{
+        grid-template-columns:1fr;
+    }
+
+    .acc{
         flex-direction:column;
     }
 
-    .cli-tbl{
+    .btn{
         width:100%;
+    }
+
+    #wrap{
+        padding:10px;
+        overflow:auto;
+        justify-content:flex-start;
+    }
+
+    #hoja{
+        width:794px;
+        min-width:794px;
+        transform:scale(0.43);
+        transform-origin:top left;
+        margin-bottom:-620px;
+    }
+
+    .info{
+        flex-direction:row;
+    }
+
+    .cli-tbl{
+        width:420px;
     }
 
 }
 
 </style>
+
 </head>
 
 <body>
