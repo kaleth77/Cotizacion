@@ -16,7 +16,6 @@ background: #111827;
 color: #f0f0f0;
 }
 
-/* ========== PANEL ========== */
 #panel {
 max-width: 980px;
 margin: 0 auto;
@@ -69,7 +68,6 @@ outline: none;
 border-color: #facc15;
 }
 
-/* tabla items */
 .fi {
 width: 100%;
 border-collapse: collapse;
@@ -141,11 +139,6 @@ justify-content: center;
 border-radius: 4px;
 }
 
-.xb:hover {
-background: #ef444422;
-}
-
-/* acciones */
 .acc {
 display: flex;
 gap: 10px;
@@ -161,10 +154,6 @@ border-radius: 8px;
 font-size: 13px;
 font-weight: 700;
 cursor: pointer;
-transition: all .15s;
-display: flex;
-align-items: center;
-gap: 7px;
 }
 
 .ba {
@@ -173,42 +162,17 @@ color: #facc15;
 border: 1px solid #facc15;
 }
 
-.ba:hover {
-background: #facc15;
-color: #111;
-}
-
 .bc {
 background: #1f2d40;
 color: #9ca3af;
 border: 1px solid #2d4059;
 }
 
-.bc:hover {
-background: #2d3748;
-}
-
 .bp {
 background: #facc15;
 color: #111;
-font-size: 14px;
-padding: 11px 26px;
 }
 
-.bp:hover {
-background: #eab308;
-transform: translateY(-1px);
-box-shadow: 0 4px 14px #facc1544;
-}
-
-.bp:disabled {
-opacity: .5;
-cursor: not-allowed;
-transform: none;
-box-shadow: none;
-}
-
-/* ========== HOJA ========== */
 #wrap {
 background: #0d1117;
 padding: 28px 16px 60px;
@@ -229,7 +193,6 @@ box-shadow: 0 8px 40px #0009;
 line-height: 1.3;
 }
 
-/* Logo */
 .top {
 display: flex;
 justify-content: space-between;
@@ -247,62 +210,30 @@ flex-direction: column;
 align-items: center;
 justify-content: center;
 padding: 6px;
-flex-shrink: 0;
 }
 
 .logo-mm {
-font-family: Arial Black, Arial, sans-serif;
 font-weight: 900;
 font-size: 22px;
 color: #4ec3f7;
 }
 
 .logo-sub {
-font-family: Arial Black, Arial, sans-serif;
 font-size: 11px;
 font-weight: 900;
 color: #fff;
 letter-spacing: 2px;
-margin-top: 1px;
-}
-
-.titulo-box {
-text-align: right;
 }
 
 .titulo-box h2 {
 font-size: 34px;
-font-weight: 700;
-line-height: 1;
-color: #111;
 }
 
-.titulo-box .cnum {
-font-size: 14px;
-color: #444;
-margin-top: 4px;
-}
-
-/* Info */
 .info {
 display: flex;
 justify-content: space-between;
-align-items: flex-start;
 margin-bottom: 30px;
 gap: 10px;
-}
-
-.empresa {
-font-size: 12px;
-line-height: 1.85;
-text-align: center;
-min-width: 150px;
-}
-
-.empresa strong {
-font-size: 13.5px;
-font-weight: 700;
-display: block;
 }
 
 .cli-tbl {
@@ -317,13 +248,6 @@ border: 1px solid #bbb;
 padding: 6px 12px;
 }
 
-.cli-tbl td:first-child {
-font-weight: 700;
-background: #f0f0f0;
-width: 75px;
-}
-
-/* Tabla ítems */
 .itbl {
 width: 100%;
 border-collapse: collapse;
@@ -331,47 +255,12 @@ font-size: 12.5px;
 margin-bottom: 16px;
 }
 
-.itbl th {
-border: 1px solid #bbb;
-padding: 8px 10px;
-font-weight: 700;
-background: #fff;
-}
-
+.itbl th,
 .itbl td {
 border: 1px solid #bbb;
-padding: 7px 10px;
-vertical-align: middle;
+padding: 8px;
 }
 
-.itbl tr:nth-child(even) td {
-background: #f9f9f9;
-}
-
-.itbl th:nth-child(1),
-.itbl td:nth-child(1) {
-text-align: center;
-width: 52px;
-}
-
-.itbl th:nth-child(2),
-.itbl td:nth-child(2) {
-text-align: left;
-}
-
-.itbl th:nth-child(3),
-.itbl td:nth-child(3) {
-text-align: right;
-width: 100px;
-}
-
-.itbl th:nth-child(4),
-.itbl td:nth-child(4) {
-text-align: right;
-width: 115px;
-}
-
-/* Totales */
 .tots {
 display: flex;
 justify-content: flex-end;
@@ -389,55 +278,17 @@ border: 1px solid #bbb;
 padding: 5px 14px;
 }
 
-.ttbl td:first-child {
-font-weight: 700;
-background: #f0f0f0;
-}
-
-.ttbl td:last-child {
-text-align: right;
-min-width: 110px;
-}
-
-.ttbl .tf td {
+.tf td {
 font-weight: 900;
 font-size: 13.5px;
 }
 
-/* Firma */
 .firma {
 position: absolute;
 bottom: 36px;
 left: 40px;
 font-size: 11.5px;
 line-height: 1.7;
-}
-
-.firma strong {
-font-size: 13px;
-font-weight: 700;
-display: block;
-}
-
-@media print {
-body, #wrap {
-background: #fff;
-}
-
-#panel {
-display: none !important;
-}
-
-#wrap {
-padding: 0;
-}
-
-#hoja {
-box-shadow: none;
-width: 100%;
-min-height: auto;
-padding: 18px 28px 40px;
-}
 }
 </style>
 </head>
@@ -451,6 +302,7 @@ padding: 18px 28px 40px;
 <div class="sec">Datos de la cotización</div>
 
 <div class="g4">
+
 <div class="f">
 <label>No. Cotización</label>
 <input id="fn" value="C-1-973">
@@ -470,32 +322,41 @@ padding: 18px 28px 40px;
 <label>NIT cliente</label>
 <input id="fni" value="222.222.222.222-7">
 </div>
+
 </div>
 
 <div class="sec">Ítems</div>
 
 <table class="fi">
+
 <thead>
 <tr>
-<th style="width:38px">#</th>
+<th>#</th>
 <th>Descripción</th>
-<th style="width:120px;text-align:right">Cantidad</th>
-<th style="width:150px;text-align:right">Vr. Unitario</th>
-<th style="width:34px"></th>
+<th>Cantidad</th>
+<th>Vr. Unitario</th>
+<th></th>
 </tr>
 </thead>
 
 <tbody id="tb"></tbody>
+
 </table>
 
 <div class="acc">
-<button class="btn ba" onclick="add()">＋ Agregar ítem</button>
 
-<button class="btn bc" onclick="clear2()">🗑️ Limpiar</button>
+<button class="btn ba" onclick="agregarItem()">
+＋ Agregar ítem
+</button>
 
-<button class="btn bp" id="btnPdf" onclick="guardarPDF()">
+<button class="btn bc" onclick="clear2()">
+🗑️ Limpiar
+</button>
+
+<button class="btn bp" id="btnPdf">
 ⬇️ Guardar PDF
 </button>
+
 </div>
 
 </div>
@@ -507,16 +368,12 @@ padding: 18px 28px 40px;
 <div class="top">
 
 <div class="logo">
-<div style="display:flex;align-items:baseline;gap:1px">
-<span class="logo-mm">m&m</span>
-</div>
-
+<div class="logo-mm">m&m</div>
 <div class="logo-sub">INGENIERÍA</div>
 </div>
 
 <div class="titulo-box">
 <h2>Cotización</h2>
-
 <div class="cnum">
 No. <span id="pn">C-1-973</span>
 </div>
@@ -527,7 +384,7 @@ No. <span id="pn">C-1-973</span>
 <div class="info">
 
 <div class="empresa">
-<strong>MANUEL CONDE</strong>
+<strong>MANUEL CONDE</strong><br>
 NIT 7.376.566-6<br>
 CRA 7 H # 34B-30<br>
 Tel: 3235110253<br>
@@ -573,7 +430,7 @@ Riohacha - Colombia
 </div>
 
 <div class="firma">
-<strong>MANUEL DEL CRISTO PETRO</strong>
+<strong>MANUEL DEL CRISTO PETRO</strong><br>
 petro66@hotmail.es<br>
 (300000000)
 </div>
@@ -593,10 +450,7 @@ document.getElementById('ff').value =
 new Date().toISOString().split('T')[0];
 
 function fmt(n){
-  return Number(n).toLocaleString('es-CO',{
-    minimumFractionDigits:0,
-    maximumFractionDigits:0
-  });
+  return Number(n).toLocaleString('es-CO');
 }
 
 function renderForm(){
@@ -619,22 +473,16 @@ function renderForm(){
 
       <td>
         <input
-          type="number"
-          value="${it.qty}"
-          min="0"
-          step="1"
-          style="text-align:right"
-          oninput="items[${i}].qty=parseFloat(this.value)||0;renderPreview()">
+        type="number"
+        value="${it.qty}"
+        oninput="items[${i}].qty=parseFloat(this.value)||0;renderPreview()">
       </td>
 
       <td>
         <input
-          type="number"
-          value="${it.price}"
-          min="0"
-          step="100"
-          style="text-align:right"
-          oninput="items[${i}].price=parseFloat(this.value)||0;renderPreview()">
+        type="number"
+        value="${it.price}"
+        oninput="items[${i}].price=parseFloat(this.value)||0;renderPreview()">
       </td>
 
       <td>
@@ -679,7 +527,7 @@ function renderPreview(){
 
     tr.innerHTML = `
       <td>${i+1}</td>
-      <td>${it.desc.replace(/\n/g,'<br>')}</td>
+      <td>${it.desc}</td>
       <td>${fmt(it.qty)}</td>
       <td>${fmt(tot)}</td>
     `;
@@ -701,7 +549,7 @@ function renderPreview(){
   `;
 }
 
-function add(){
+function agregarItem(){
 
   items.push({
     desc:'',
@@ -723,8 +571,6 @@ function del(i){
 
 function clear2(){
 
-  if(!confirm('¿Limpiar todo?')) return;
-
   items = [
     {
       desc:'',
@@ -732,9 +578,6 @@ function clear2(){
       price:0
     }
   ];
-
-  document.getElementById('fp').value = '';
-  document.getElementById('fni').value = '';
 
   renderForm();
 }
@@ -758,8 +601,7 @@ function guardarPDF(){
       quality:0.98
     },
     html2canvas:{
-      scale:2,
-      useCORS:true
+      scale:2
     },
     jsPDF:{
       unit:'px',
@@ -789,6 +631,10 @@ function guardarPDF(){
   .addEventListener('input',renderPreview);
 
 });
+
+document
+.getElementById('btnPdf')
+.addEventListener('click', guardarPDF);
 
 renderForm();
 
