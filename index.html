@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Cotizaciones M&M Ingeniería</title>
+<title>Cotizaciones FB</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
@@ -678,29 +678,39 @@ async function guardarPDF() {
         const element =
         document.getElementById('hoja');
 
-        const worker = html2pdf()
+        const pdf =
+        await html2pdf()
         .set(opciones)
-        .from(element);
+        .from(element)
+        .outputPdf('blob');
 
-        const pdfBlob =
-        await worker.outputPdf('blob');
+        const archivo =
+        new File(
+            [pdf],
+            numero + '.pdf',
+            {
+                type: 'application/pdf'
+            }
+        );
 
-        const fileURL =
-        URL.createObjectURL(pdfBlob);
+        // iPhone compartir / guardar
+        if(navigator.share){
 
-        const isIOS =
-        /iPad|iPhone|iPod/.test(navigator.userAgent);
-
-        if(isIOS){
-
-            window.open(fileURL, '_blank');
+            await navigator.share({
+                files: [archivo],
+                title: numero,
+                text: 'Cotización PDF'
+            });
 
         }else{
+
+            const url =
+            URL.createObjectURL(pdf);
 
             const link =
             document.createElement('a');
 
-            link.href = fileURL;
+            link.href = url;
 
             link.download = numero + '.pdf';
 
@@ -710,9 +720,9 @@ async function guardarPDF() {
 
     } catch(error){
 
-        alert('Error al generar PDF');
-
         console.log(error);
+
+        alert('Error al generar PDF');
 
     }
 
