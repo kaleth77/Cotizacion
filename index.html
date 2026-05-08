@@ -706,9 +706,6 @@ async function guardarPDF() {
     const numero =
     document.getElementById('fn').value || 'cotizacion';
 
-    const element =
-    document.getElementById('hoja');
-
     const opciones = {
 
         margin: 0,
@@ -740,10 +737,62 @@ async function guardarPDF() {
 
     try {
 
+        const element =
+        document.getElementById('hoja');
+
+        const pdfBlob =
         await html2pdf()
         .set(opciones)
         .from(element)
-        .save();
+        .outputPdf('blob');
+
+        const archivo =
+        new File(
+            [pdfBlob],
+            numero + '.pdf',
+            {
+                type: 'application/pdf'
+            }
+        );
+
+        // iPhone compartir / guardar
+        if (
+            navigator.share &&
+            navigator.canShare &&
+            navigator.canShare({ files:[archivo] })
+        ) {
+
+            await navigator.share({
+                files: [archivo],
+                title: numero,
+                text: 'Cotización PDF'
+            });
+
+        } else {
+
+            const url =
+            URL.createObjectURL(pdfBlob);
+
+            const link =
+            document.createElement('a');
+
+            link.href = url;
+
+            link.download = numero + '.pdf';
+
+            document.body.appendChild(link);
+
+            link.click();
+
+            document.body.removeChild(link);
+
+            setTimeout(function(){
+
+                URL.revokeObjectURL(url);
+
+            },1000);
+
+        }
 
     } catch(error){
 
