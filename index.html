@@ -4,626 +4,477 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Generador de Cotizaciones - M&M Ingeniería</title>
+<title>Cotizaciones M&M Ingeniería</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ===================== PANTALLA ===================== */
 body {
 font-family: ‘Segoe UI’, sans-serif;
-background: #1a1a2e;
-color: #333;
-min-height: 100vh;
+background: #111827;
+color: #f0f0f0;
 }
 
-/* ===== PANEL DE CONTROL ===== */
 #panel {
-background: #16213e;
-padding: 24px;
-color: #eee;
-border-bottom: 3px solid #0f3460;
+max-width: 980px;
+margin: 0 auto;
+padding: 22px 20px 0;
 }
 
 #panel h1 {
-font-size: 22px;
-color: #e94560;
+font-size: 18px;
+color: #facc15;
 margin-bottom: 18px;
-letter-spacing: 1px;
+padding-bottom: 10px;
+border-bottom: 2px solid #1f2d40;
 }
 
-.panel-grid {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-gap: 14px;
-margin-bottom: 18px;
+.sec { font-size: 11px; color: #6b7280; text-transform: uppercase;
+letter-spacing: 1px; margin: 16px 0 8px;
+border-left: 3px solid #facc15; padding-left: 8px; }
+
+.g4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; }
+
+.f label { display: block; font-size: 11px; color: #9ca3af; margin-bottom: 3px; }
+.f input  {
+width: 100%; background: #1f2d40; border: 1px solid #2d4059;
+border-radius: 6px; color: #fff; padding: 8px 10px;
+font-size: 13px; outline: none;
+}
+.f input:focus { border-color: #facc15; }
+
+/* tabla items formulario */
+.fi { width: 100%; border-collapse: collapse; margin-top: 4px; }
+.fi thead th {
+background: #1f2d40; color: #9ca3af; font-size: 11px;
+text-transform: uppercase; padding: 7px 10px;
+text-align: left; border: 1px solid #2d4059;
+}
+.fi tbody td { border: 1px solid #1a2840; padding: 4px 5px; vertical-align: middle; }
+.fi tbody tr:nth-child(even) td { background: #111f30; }
+
+.fi input, .fi textarea {
+width: 100%; background: transparent; border: none;
+color: #fff; font-size: 13px; padding: 5px 6px;
+outline: none; font-family: inherit;
+}
+.fi textarea { resize: vertical; min-height: 38px; display: block; line-height: 1.4; }
+.fi input:focus, .fi textarea:focus { background: #1f3050; border-radius: 3px; }
+
+.nf { color: #6b7280; text-align: center; font-size: 12px; }
+.xb { background: none; border: none; color: #ef4444; font-size: 20px;
+cursor: pointer; width: 28px; height: 28px;
+display: flex; align-items: center; justify-content: center; border-radius: 4px; }
+.xb:hover { background: #ef444422; }
+
+.acc { display: flex; gap: 10px; margin: 14px 0 22px; flex-wrap: wrap; align-items: center; }
+.btn { padding: 9px 18px; border: none; border-radius: 7px;
+font-size: 13px; font-weight: 600; cursor: pointer; transition: all .15s; }
+.ba  { background: #1f2d40; color: #facc15; border: 1px solid #facc15; }
+.ba:hover { background: #facc15; color: #111; }
+.bp  { background: #facc15; color: #111; }
+.bp:hover { background: #eab308; }
+.bc  { background: #1f2d40; color: #9ca3af; border: 1px solid #2d4059; }
+
+.iva-box { margin-left: auto; display: flex; align-items: center;
+gap: 8px; font-size: 13px; color: #ccc; }
+.iva-box input[type=checkbox] { width:16px; height:16px; accent-color:#facc15; cursor:pointer; }
+.iva-box input[type=number]   {
+width: 56px; background: #1f2d40; border: 1px solid #2d4059;
+border-radius: 5px; color: #fff; padding: 5px 8px; font-size: 13px; outline: none;
 }
 
-.field-group label {
-display: block;
-font-size: 11px;
-color: #aaa;
-text-transform: uppercase;
-letter-spacing: .5px;
-margin-bottom: 4px;
-}
-
-.field-group input, .field-group select {
-width: 100%;
-padding: 8px 10px;
-border-radius: 6px;
-border: 1px solid #0f3460;
-background: #0f3460;
-color: #fff;
-font-size: 13px;
-outline: none;
-transition: border .2s;
-}
-
-.field-group input:focus, .field-group select:focus {
-border-color: #e94560;
-}
-
-/* Items table panel */
-#items-panel {
-background: #16213e;
-padding: 0 24px 20px;
-color: #eee;
-}
-
-#items-panel h2 {
-font-size: 14px;
-color: #aaa;
-padding: 14px 0 10px;
-text-transform: uppercase;
-letter-spacing: 1px;
-}
-
-.items-header {
-display: grid;
-grid-template-columns: 40px 1fr 100px 130px 36px;
-gap: 8px;
-font-size: 11px;
-color: #888;
-text-transform: uppercase;
-padding: 0 4px 6px;
-border-bottom: 1px solid #0f3460;
-}
-
-.item-row {
-display: grid;
-grid-template-columns: 40px 1fr 100px 130px 36px;
-gap: 8px;
-align-items: center;
-padding: 6px 4px;
-border-bottom: 1px solid #0d2137;
-}
-
-.item-row input {
-padding: 6px 8px;
-border-radius: 5px;
-border: 1px solid #0f3460;
-background: #0f3460;
-color: #fff;
-font-size: 12px;
-width: 100%;
-outline: none;
-}
-
-.item-row input:focus { border-color: #e94560; }
-
-.item-num {
-color: #888;
-font-size: 12px;
-text-align: center;
-}
-
-.btn-remove {
-background: #e9456044;
-border: none;
-color: #e94560;
-border-radius: 4px;
-cursor: pointer;
-font-size: 16px;
-width: 28px;
-height: 28px;
-display: flex; align-items: center; justify-content: center;
-transition: background .2s;
-}
-.btn-remove:hover { background: #e9456088; }
-
-.panel-btns {
-display: flex;
-gap: 10px;
-margin-top: 14px;
-flex-wrap: wrap;
-}
-
-.btn {
-padding: 10px 20px;
-border: none;
-border-radius: 7px;
-cursor: pointer;
-font-size: 13px;
-font-weight: 600;
-letter-spacing: .5px;
-transition: all .2s;
-}
-
-.btn-add { background: #0f3460; color: #fff; }
-.btn-add:hover { background: #1a4a85; }
-
-.btn-print {
-background: #e94560;
-color: #fff;
-}
-.btn-print:hover { background: #c73550; transform: translateY(-1px); }
-
-.btn-clear { background: #333; color: #aaa; }
-.btn-clear:hover { background: #444; }
-
-/* IVA toggle */
-.iva-row {
-display: flex;
-align-items: center;
-gap: 10px;
-margin-top: 14px;
-}
-.iva-row label { font-size: 13px; color: #ccc; }
-.iva-row input[type=checkbox] { width: 16px; height: 16px; cursor: pointer; }
-.iva-row input[type=number] {
-width: 70px;
-padding: 6px 8px;
-border-radius: 5px;
-border: 1px solid #0f3460;
-background: #0f3460;
-color: #fff;
-font-size: 13px;
-}
-
-/* ===== PREVIEW COTIZACIÓN ===== */
-#preview-wrap {
+/* ===================== HOJA ===================== */
+#wrap {
+background: #0d1117;
+padding: 28px 16px 50px;
 display: flex;
 justify-content: center;
-padding: 30px 20px;
-background: #1a1a2e;
 }
 
-#cotizacion {
+/* A4 a 96dpi = 794×1123px */
+#hoja {
 background: #fff;
+color: #111;
 width: 794px;
 min-height: 1123px;
-padding: 40px 45px;
-box-shadow: 0 8px 40px #0008;
+padding: 36px 40px 50px 40px;
+font-family: Arial, Helvetica, sans-serif;
+font-size: 12px;
 position: relative;
-font-family: Arial, sans-serif;
-font-size: 13px;
-color: #111;
+box-shadow: 0 8px 40px #0009;
+line-height: 1.3;
 }
 
-/* Header cotización */
-.cot-header {
+/* — Logo + título — */
+.top {
 display: flex;
 justify-content: space-between;
 align-items: flex-start;
-margin-bottom: 24px;
+margin-bottom: 16px;
 }
 
-.logo-area {
-display: flex;
-align-items: center;
-gap: 12px;
-}
-
-.logo-placeholder {
-width: 130px;
-height: 80px;
+/* Logo negro idéntico al PDF */
+.logo {
+width: 148px;
+height: 90px;
 background: #111;
 border-radius: 6px;
 display: flex;
+flex-direction: column;
 align-items: center;
 justify-content: center;
-color: #fff;
+padding: 6px;
+flex-shrink: 0;
+}
+.logo-icons { display: flex; gap: 6px; align-items: center; margin-bottom: 2px; }
+.logo-bolt {
+width: 28px; height: 28px; fill: #fff;
+}
+.logo-snow {
+width: 28px; height: 28px; fill: #fff;
+}
+.logo-mm {
+font-family: Arial Black, Arial, sans-serif;
 font-weight: 900;
-font-size: 18px;
-letter-spacing: 1px;
-text-align: center;
-overflow: hidden;
+font-size: 22px;
+color: #4ec3f7;
+letter-spacing: -1px;
+line-height: 1;
+}
+.logo-amp { color: #fff; font-size: 22px; font-weight: 900; }
+.logo-sub {
+font-family: Arial Black, Arial, sans-serif;
+font-size: 11px;
+font-weight: 900;
+color: #fff;
+letter-spacing: 2px;
+margin-top: 1px;
 }
 
-.logo-placeholder img {
-width: 100%;
-height: 100%;
-object-fit: contain;
-}
+.titulo-box { text-align: right; }
+.titulo-box h2 { font-size: 34px; font-weight: 700; line-height: 1; color: #111; }
+.titulo-box .cnum { font-size: 14px; color: #444; margin-top: 4px; }
 
-.cot-title-box {
-text-align: right;
-}
-
-.cot-title-box h2 {
-font-size: 28px;
-font-weight: 700;
-color: #111;
-}
-
-.cot-title-box .cot-num {
-font-size: 14px;
-color: #555;
-margin-top: 2px;
-}
-
-/* Info empresa y cliente */
-.cot-info {
+/* — Empresa + cliente — */
+.info {
 display: flex;
 justify-content: space-between;
-margin-bottom: 28px;
-gap: 20px;
+align-items: flex-start;
+margin-bottom: 30px;
+gap: 10px;
 }
 
-.empresa-info {
+.empresa {
 font-size: 12px;
-line-height: 1.7;
+line-height: 1.85;
+text-align: center;
+min-width: 150px;
 }
+.empresa strong { font-size: 13.5px; font-weight: 700; display: block; }
 
-.empresa-info strong {
-font-size: 14px;
-display: block;
-margin-bottom: 2px;
-}
-
-.cliente-table {
+.cli-tbl {
 border-collapse: collapse;
-font-size: 13px;
-min-width: 300px;
+font-size: 12.5px;
+flex: 1;
+max-width: 430px;
 }
-
-.cliente-table td {
-padding: 5px 10px;
-border: 1px solid #ccc;
-}
-
-.cliente-table td:first-child {
+.cli-tbl td { border: 1px solid #bbb; padding: 6px 12px; }
+.cli-tbl td:first-child {
 font-weight: 700;
-background: #f5f5f5;
-width: 80px;
+background: #f0f0f0;
+width: 75px;
+text-align: left;
 }
+.cli-tbl td:last-child { text-align: left; }
 
-/* Tabla ítems */
-.items-table {
+/* — Tabla ítems — */
+.itbl {
 width: 100%;
 border-collapse: collapse;
-margin-bottom: 20px;
-font-size: 13px;
+font-size: 12.5px;
+margin-bottom: 16px;
 }
-
-.items-table th {
-background: #fff;
-border: 1px solid #ccc;
+.itbl th {
+border: 1px solid #bbb;
 padding: 8px 10px;
-text-align: left;
 font-weight: 700;
+background: #fff;
 }
-
-.items-table th:last-child,
-.items-table td:last-child {
-text-align: right;
-}
-
-.items-table th:nth-child(3),
-.items-table td:nth-child(3) {
-text-align: right;
-}
-
-.items-table td {
-border: 1px solid #ccc;
+.itbl td {
+border: 1px solid #bbb;
 padding: 7px 10px;
+vertical-align: middle;
 }
+.itbl tr:nth-child(even) td { background: #f9f9f9; }
 
-.items-table tr:nth-child(even) td { background: #fafafa; }
+.itbl th:nth-child(1), .itbl td:nth-child(1) { text-align: center; width: 52px; }
+.itbl th:nth-child(2), .itbl td:nth-child(2) { text-align: left; }
+.itbl th:nth-child(3), .itbl td:nth-child(3) { text-align: right; width: 100px; }
+.itbl th:nth-child(4), .itbl td:nth-child(4) { text-align: right; width: 115px; }
 
-/* Totales */
-.totales {
+/* — Totales — */
+.tots {
 display: flex;
 justify-content: flex-end;
-margin-bottom: 40px;
+margin-bottom: 60px;
 }
-
-.totales-table {
+.ttbl {
 border-collapse: collapse;
-font-size: 13px;
-min-width: 260px;
+font-size: 12.5px;
+min-width: 265px;
 }
+.ttbl td { border: 1px solid #bbb; padding: 5px 14px; }
+.ttbl td:first-child { font-weight: 700; background: #f0f0f0; }
+.ttbl td:last-child  { text-align: right; min-width: 110px; }
+.ttbl .tf td         { font-weight: 900; font-size: 13.5px; }
 
-.totales-table td {
-padding: 5px 14px;
-border: 1px solid #ccc;
-}
-
-.totales-table td:first-child {
-font-weight: 700;
-background: #f5f5f5;
-}
-
-.totales-table td:last-child {
-text-align: right;
-min-width: 120px;
-}
-
-.totales-table .total-final td {
-font-weight: 900;
-font-size: 14px;
-}
-
-/* Firma */
-.cot-firma {
+/* — Firma — */
+.firma {
 position: absolute;
-bottom: 40px;
-left: 45px;
-font-size: 12px;
-line-height: 1.6;
-color: #333;
+bottom: 36px;
+left: 40px;
+font-size: 11.5px;
+line-height: 1.7;
 }
+.firma strong { font-size: 13px; font-weight: 700; display: block; }
 
-.cot-firma strong { font-size: 13px; }
-
-/* Rotated watermark text */
-.cot-watermark {
+/* — Watermark lateral — */
+.wm {
 position: absolute;
-right: -28px;
+right: -18px;
 top: 50%;
 transform: translateY(-50%) rotate(90deg);
-font-size: 9px;
-color: #999;
+font-size: 8px;
+color: #aaa;
 white-space: nowrap;
 }
 
-/* ===== PRINT STYLES ===== */
+/* ===================== PRINT ===================== */
 @media print {
-body { background: white; }
-#panel, #items-panel { display: none; }
-#preview-wrap { padding: 0; background: white; }
-#cotizacion {
-box-shadow: none;
-width: 100%;
-margin: 0;
-padding: 25px 30px;
-}
+body, #wrap { background: #fff; }
+#panel { display: none !important; }
+#wrap   { padding: 0; }
+#hoja   { box-shadow: none; width: 100%; min-height: auto; padding: 18px 28px 40px; }
 }
 </style>
 
 </head>
 <body>
 
-<!-- ===== PANEL DE CONTROL ===== -->
+<!-- ===== PANEL ===== -->
 
 <div id="panel">
   <h1>⚡ Generador de Cotizaciones — M&amp;M Ingeniería</h1>
-  <div class="panel-grid">
-    <div class="field-group">
-      <label>No. Cotización</label>
-      <input type="text" id="cotNum" value="C-1-973" placeholder="C-1-001">
-    </div>
-    <div class="field-group">
-      <label>Fecha</label>
-      <input type="date" id="cotFecha">
-    </div>
-    <div class="field-group">
-      <label>Para (cliente)</label>
-      <input type="text" id="clientePara" value="Consumidor Final">
-    </div>
-    <div class="field-group">
-      <label>NIT cliente</label>
-      <input type="text" id="clienteNit" value="222.222.222.222-7">
-    </div>
-  </div>
-</div>
 
-<!-- ===== ITEMS ===== -->
-
-<div id="items-panel">
-  <h2>Ítems de la cotización</h2>
-  <div class="items-header">
-    <span>#</span>
-    <span>Descripción</span>
-    <span style="text-align:right">Cantidad</span>
-    <span style="text-align:right">Vr. Unitario</span>
-    <span></span>
-  </div>
-  <div id="items-list"></div>
-
-  <div class="iva-row">
-    <input type="checkbox" id="aplicarIva" checked>
-    <label for="aplicarIva">Aplicar IVA</label>
-    <input type="number" id="ivaPorc" value="19" min="0" max="100" title="Porcentaje IVA">
-    <label>%</label>
+  <div class="sec">Datos de la cotización</div>
+  <div class="g4">
+    <div class="f"><label>No. Cotización</label><input id="fn" value="C-1-973"></div>
+    <div class="f"><label>Fecha</label><input type="date" id="ff"></div>
+    <div class="f"><label>Para (cliente)</label><input id="fp" value="Consumidor Final"></div>
+    <div class="f"><label>NIT cliente</label><input id="fni" value="222.222.222.222-7"></div>
   </div>
 
-  <div class="panel-btns">
-    <button class="btn btn-add" onclick="addItem()">+ Agregar ítem</button>
-    <button class="btn btn-print" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
-    <button class="btn btn-clear" onclick="clearAll()">🗑️ Limpiar todo</button>
-  </div>
-</div>
-
-<!-- ===== PREVIEW ===== -->
-
-<div id="preview-wrap">
-  <div id="cotizacion">
-    <!-- Header -->
-    <div class="cot-header">
-      <div class="logo-area">
-        <div class="logo-placeholder">
-          <span>m&amp;m<br>INGENIERÍA</span>
-        </div>
-      </div>
-      <div class="cot-title-box">
-        <h2>Cotización</h2>
-        <div class="cot-num">No. <span id="prev-num">C-1-973</span></div>
-      </div>
-    </div>
-
-```
-<!-- Info empresa + cliente -->
-<div class="cot-info">
-  <div class="empresa-info">
-    <strong>MANUEL CONDE</strong>
-    NIT 7.376.566-6<br>
-    CRA 7 H # 34B-30<br>
-    Tel: 3235110253<br>
-    Riohacha - Colombia
-  </div>
-  <table class="cliente-table">
-    <tr><td>Para</td><td id="prev-para">Consumidor Final</td></tr>
-    <tr><td>Nit</td><td id="prev-nit">222.222.222.222-7</td></tr>
-    <tr><td>Fecha</td><td id="prev-fecha"></td></tr>
+  <div class="sec">Ítems</div>
+  <table class="fi">
+    <thead>
+      <tr>
+        <th style="width:38px">#</th>
+        <th>Descripción</th>
+        <th style="width:120px;text-align:right">Cantidad</th>
+        <th style="width:150px;text-align:right">Vr. Unitario</th>
+        <th style="width:34px"></th>
+      </tr>
+    </thead>
+    <tbody id="tb"></tbody>
   </table>
-</div>
 
-<!-- Tabla ítems -->
-<table class="items-table">
-  <thead>
-    <tr>
-      <th style="width:50px">Ítem</th>
-      <th>Descripción</th>
-      <th style="width:100px">Cantidad</th>
-      <th style="width:130px">Vr. Total</th>
-    </tr>
-  </thead>
-  <tbody id="prev-items"></tbody>
-</table>
-
-<!-- Totales -->
-<div class="totales">
-  <table class="totales-table" id="prev-totales">
-  </table>
-</div>
-
-<!-- Firma -->
-<div class="cot-firma">
-  <strong>MANUEL DEL CRISTO PETRO</strong><br>
-  petro66@hotmail.es<br>
-  (300000000)
-</div>
-
-<div class="cot-watermark">Elaborado por Sligo S.A.S Nit: 830.048.145-8</div>
-```
-
+  <div class="acc">
+    <button class="btn ba" onclick="add()">+ Agregar ítem</button>
+    <button class="btn bc" onclick="clear2()">🗑️ Limpiar</button>
+    <button class="btn bp" onclick="window.print()">🖨️ Imprimir / PDF</button>
+    <div class="iva-box">
+      <input type="checkbox" id="fv" checked>
+      <label for="fv">IVA</label>
+      <input type="number" id="fvp" value="19" min="0" max="100">
+      <span>%</span>
+    </div>
   </div>
 </div>
+
+<!-- ===== HOJA ===== -->
+
+<div id="wrap">
+<div id="hoja">
+
+  <!-- Encabezado -->
+
+  <div class="top">
+    <div class="logo">
+      <div class="logo-icons">
+        <!-- Rayo -->
+        <svg class="logo-bolt" viewBox="0 0 24 24">
+          <path d="M13 2L4.5 13.5H11L10 22L19.5 10H13L13 2Z" fill="#fff"/>
+        </svg>
+        <!-- Copo de nieve -->
+        <svg class="logo-snow" viewBox="0 0 24 24">
+          <path d="M12 2v20M2 12h20M5.636 5.636l12.728 12.728M18.364 5.636L5.636 18.364" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <circle cx="12" cy="12" r="2" fill="#fff"/>
+        </svg>
+      </div>
+      <div style="display:flex;align-items:baseline;gap:1px">
+        <span class="logo-mm">m</span>
+        <span class="logo-amp">&amp;</span>
+        <span class="logo-mm">m</span>
+      </div>
+      <div class="logo-sub">INGENIERÍA</div>
+    </div>
+
+
+<div class="titulo-box">
+  <h2>Cotización</h2>
+  <div class="cnum">No. <span id="pn">C-1-973</span></div>
+</div>
+
+
+  </div>
+
+  <!-- Empresa + Cliente -->
+
+  <div class="info">
+    <div class="empresa">
+      <!-- ✏️ CAMBIA AQUÍ: nombre, NIT, dirección, tel y ciudad de tu empresa -->
+      <strong>MANUEL CONDE</strong>
+      NIT 7.376.566-6<br>
+      CRA 7 H # 34B-30<br>
+      Tel: 3235110253<br>
+      Riohacha - Colombia
+    </div>
+    <table class="cli-tbl">
+      <tr><td>Para</td><td id="pp">Consumidor Final</td></tr>
+      <tr><td>Nit</td><td id="pni">222.222.222.222-7</td></tr>
+      <tr><td>Fecha</td><td id="pf"></td></tr>
+    </table>
+  </div>
+
+  <!-- Tabla ítems -->
+
+  <table class="itbl">
+    <thead>
+      <tr>
+        <th>Ítem</th>
+        <th>Descripción</th>
+        <th>Cantidad</th>
+        <th>Vr. Total</th>
+      </tr>
+    </thead>
+    <tbody id="pi"></tbody>
+  </table>
+
+  <!-- Totales -->
+
+  <div class="tots">
+    <table class="ttbl" id="pt"></table>
+  </div>
+
+  <!-- Firma -->
+
+  <!-- ✏️ CAMBIA AQUÍ: nombre, correo y teléfono del elaborador -->
+
+  <div class="firma">
+    <strong>MANUEL DEL CRISTO PETRO</strong>
+    petro66@hotmail.es<br>
+    (300000000)
+  </div>
+
+  <div class="wm">Elaborado por Sligo S.A.S Nit: 830.048.145-8</div>
+
+</div><!-- #hoja -->
+</div><!-- #wrap -->
 
 <script>
-  // Estado
-  let items = [
-    { desc: 'TUBERIA DE COBRE 1/4 * 15 MTS', qty: 1, price: 10500 },
-    { desc: 'TUBERIA DE COBRE 3/8 *15 MTS',  qty: 1, price: 16500 },
-    { desc: 'CINTA VINILO GRIS / BLANCA',     qty: 2, price: 5000  },
-    { desc: 'RUBATEX 5/8 X 1/2',             qty: 1, price: 9000  },
-    { desc: 'VARILLA DE PLATA',              qty: 2, price: 3000  },
-    { desc: 'CABLE ENCAUCHETADO 3X12',       qty: 1, price: 13000 },
-    { desc: 'TUBERIA DE COBRE 1/2*15 MTS',   qty: 1, price: 21000 },
-  ];
+let items = [
+  { desc:'TUBERIA DE COBRE 1/4 * 15 MTS', qty:1, price:10500 },
+  { desc:'TUBERIA DE COBRE 3/8 *15 MTS',  qty:1, price:16500 },
+  { desc:'CINTA VINILO GRIS / BLANCA',     qty:2, price:5000  },
+  { desc:'RUBATEX 5/8 X 1/2',             qty:1, price:9000  },
+  { desc:'VARILLA DE PLATA',              qty:2, price:3000  },
+  { desc:'CABLE ENCAUCHETADO 3X12',       qty:1, price:13000 },
+  { desc:'TUBERIA DE COBRE 1/2*15 MTS',   qty:1, price:21000 },
+];
 
-  // Fecha hoy
-  const hoy = new Date().toISOString().split('T')[0];
-  document.getElementById('cotFecha').value = hoy;
+document.getElementById('ff').value = new Date().toISOString().split('T')[0];
 
-  function fmt(n) {
-    return n.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
+function fmt(n){
+  return n.toLocaleString('es-CO',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
 
-  function formatDateDisplay(val) {
-    if (!val) return '';
-    const [y, m, d] = val.split('-');
-    return `${y}-${m}-${d}`;
-  }
+function renderForm(){
+  const tb = document.getElementById('tb');
+  tb.innerHTML = '';
+  items.forEach((it,i)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="nf">${i+1}</td>
+      <td><textarea rows="2"
+        oninput="items[${i}].desc=this.value;renderPreview()">${it.desc}</textarea></td>
 
-  function renderPanel() {
-    const list = document.getElementById('items-list');
-    list.innerHTML = '';
-    items.forEach((item, i) => {
-      const row = document.createElement('div');
-      row.className = 'item-row';
-      row.innerHTML = `
-        <span class="item-num">${i + 1}</span>
-        <input type="text" value="${item.desc}" placeholder="Descripción del ítem"
-          oninput="items[${i}].desc=this.value;renderPreview()">
-        <input type="number" value="${item.qty}" min="0" step="0.01"
-          oninput="items[${i}].qty=parseFloat(this.value)||0;renderPreview()" style="text-align:right">
-        <input type="number" value="${item.price}" min="0" step="100"
-          oninput="items[${i}].price=parseFloat(this.value)||0;renderPreview()" style="text-align:right">
-        <button class="btn-remove" onclick="removeItem(${i})" title="Eliminar">×</button>
-      `;
-      list.appendChild(row);
-    });
-    renderPreview();
-  }
 
-  function renderPreview() {
-    // Encabezado
-    document.getElementById('prev-num').textContent   = document.getElementById('cotNum').value;
-    document.getElementById('prev-para').textContent  = document.getElementById('clientePara').value;
-    document.getElementById('prev-nit').textContent   = document.getElementById('clienteNit').value;
-    document.getElementById('prev-fecha').textContent = formatDateDisplay(document.getElementById('cotFecha').value);
+  <td><input type="number" value="${it.qty}" min="0" step="0.01" style="text-align:right"
+    oninput="items[${i}].qty=parseFloat(this.value)||0;renderPreview()"></td>
+  <td><input type="number" value="${it.price}" min="0" step="100" style="text-align:right"
+    oninput="items[${i}].price=parseFloat(this.value)||0;renderPreview()"></td>
+  <td><button class="xb" onclick="del(${i})">×</button></td>
+`;
+tb.appendChild(tr);
 
-    // Ítems
-    const tbody = document.getElementById('prev-items');
-    tbody.innerHTML = '';
-    let bruto = 0;
-    items.forEach((item, i) => {
-      const total = item.qty * item.price;
-      bruto += total;
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td style="text-align:center">${i + 1}</td>
-        <td>${item.desc}</td>
-        <td style="text-align:right">${fmt(item.qty)}</td>
-        <td style="text-align:right">${fmt(total)}</td>
-      `;
-      tbody.appendChild(tr);
-    });
 
-    // Totales
-    const aplicarIva = document.getElementById('aplicarIva').checked;
-    const ivaPorc    = parseFloat(document.getElementById('ivaPorc').value) || 0;
-    const ivaVal     = aplicarIva ? Math.round(bruto * ivaPorc / 100) : 0;
-    const totalPagar = bruto + ivaVal;
+});
+renderPreview();
+}
 
-    const tt = document.getElementById('prev-totales');
-    tt.innerHTML = `
-      <tr><td>Total Bruto</td><td>${fmt(bruto)}</td></tr>
-      <tr><td>Subtotal</td><td>${fmt(bruto)}</td></tr>
-      ${aplicarIva ? `<tr><td>IVA ${ivaPorc}%</td><td>${fmt(ivaVal)}</td></tr>` : ''}
-      <tr class="total-final"><td>Total a Pagar</td><td>${fmt(totalPagar)}</td></tr>
-    `;
-  }
+function renderPreview(){
+document.getElementById(‘pn’).textContent  = document.getElementById(‘fn’).value;
+document.getElementById(‘pp’).textContent  = document.getElementById(‘fp’).value;
+document.getElementById(‘pni’).textContent = document.getElementById(‘fni’).value;
+document.getElementById(‘pf’).textContent  = document.getElementById(‘ff’).value;
 
-  function addItem() {
-    items.push({ desc: '', qty: 1, price: 0 });
-    renderPanel();
-  }
+let bruto = 0;
+const tb = document.getElementById(‘pi’);
+tb.innerHTML = ‘’;
+items.forEach((it,i)=>{
+const tot = it.qty * it.price;
+bruto += tot;
+const tr = document.createElement(‘tr’);
+tr.innerHTML = <td>${i+1}</td> <td>${it.desc.replace(/\n/g,'<br>')}</td> <td>${fmt(it.qty)}</td> <td>${fmt(tot)}</td>;
+tb.appendChild(tr);
+});
 
-  function removeItem(i) {
-    if (items.length === 1) return;
-    items.splice(i, 1);
-    renderPanel();
-  }
+const usaIva = document.getElementById(‘fv’).checked;
+const ivaP   = parseFloat(document.getElementById(‘fvp’).value)||0;
+const ivaV   = usaIva ? Math.round(bruto * ivaP / 100) : 0;
+const total  = bruto + ivaV;
 
-  function clearAll() {
-    if (!confirm('¿Limpiar todos los ítems?')) return;
-    items = [{ desc: '', qty: 1, price: 0 }];
-    document.getElementById('clientePara').value = '';
-    document.getElementById('clienteNit').value  = '';
-    renderPanel();
-  }
+document.getElementById(‘pt’).innerHTML = ` <tr><td>Total Bruto</td><td>${fmt(bruto)}</td></tr> <tr><td>Subtotal</td><td>${fmt(bruto)}</td></tr> ${usaIva?<tr><td>IVA ${ivaP}%</td><td>${fmt(ivaV)}</td></tr>:''} <tr class="tf"><td>Total a Pagar</td><td>${fmt(total)}</td></tr> `;
+}
 
-  // Listeners encabezado
-  ['cotNum','cotFecha','clientePara','clienteNit'].forEach(id => {
-    document.getElementById(id).addEventListener('input', renderPreview);
-  });
-  document.getElementById('aplicarIva').addEventListener('change', renderPreview);
-  document.getElementById('ivaPorc').addEventListener('input', renderPreview);
+function add(){ items.push({desc:’’,qty:1,price:0}); renderForm(); }
+function del(i){ if(items.length===1)return; items.splice(i,1); renderForm(); }
+function clear2(){
+if(!confirm(’¿Limpiar todo?’))return;
+items=[{desc:’’,qty:1,price:0}];
+document.getElementById(‘fp’).value=’’;
+document.getElementById(‘fni’).value=’’;
+renderForm();
+}
 
-  // Init
-  renderPanel();
+[‘fn’,‘ff’,‘fp’,‘fni’].forEach(id=>
+document.getElementById(id).addEventListener(‘input’,renderPreview)
+);
+document.getElementById(‘fv’).addEventListener(‘change’,renderPreview);
+document.getElementById(‘fvp’).addEventListener(‘input’,renderPreview);
+
+renderForm();
 </script>
 
 </body>
