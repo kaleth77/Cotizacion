@@ -5,20 +5,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cotizaciones M&M Ingeniería</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ===================== PANTALLA ===================== */
 body {
 font-family: ‘Segoe UI’, sans-serif;
 background: #111827;
 color: #f0f0f0;
 }
 
+/* ========== PANEL ========== */
 #panel {
 max-width: 980px;
 margin: 0 auto;
-padding: 22px 20px 0;
+padding: 22px 20px 24px;
 }
 
 #panel h1 {
@@ -29,21 +30,23 @@ padding-bottom: 10px;
 border-bottom: 2px solid #1f2d40;
 }
 
-.sec { font-size: 11px; color: #6b7280; text-transform: uppercase;
+.sec {
+font-size: 11px; color: #6b7280; text-transform: uppercase;
 letter-spacing: 1px; margin: 16px 0 8px;
-border-left: 3px solid #facc15; padding-left: 8px; }
+border-left: 3px solid #facc15; padding-left: 8px;
+}
 
 .g4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; }
 
 .f label { display: block; font-size: 11px; color: #9ca3af; margin-bottom: 3px; }
-.f input  {
+.f input {
 width: 100%; background: #1f2d40; border: 1px solid #2d4059;
 border-radius: 6px; color: #fff; padding: 8px 10px;
 font-size: 13px; outline: none;
 }
 .f input:focus { border-color: #facc15; }
 
-/* tabla items formulario */
+/* tabla items */
 .fi { width: 100%; border-collapse: collapse; margin-top: 4px; }
 .fi thead th {
 background: #1f2d40; color: #9ca3af; font-size: 11px;
@@ -58,47 +61,55 @@ width: 100%; background: transparent; border: none;
 color: #fff; font-size: 13px; padding: 5px 6px;
 outline: none; font-family: inherit;
 }
-.fi textarea { resize: vertical; min-height: 38px; display: block; line-height: 1.4; }
+.fi textarea { resize: vertical; min-height: 40px; display: block; line-height: 1.4; }
 .fi input:focus, .fi textarea:focus { background: #1f3050; border-radius: 3px; }
 
 .nf { color: #6b7280; text-align: center; font-size: 12px; }
-.xb { background: none; border: none; color: #ef4444; font-size: 20px;
+.xb {
+background: none; border: none; color: #ef4444; font-size: 20px;
 cursor: pointer; width: 28px; height: 28px;
-display: flex; align-items: center; justify-content: center; border-radius: 4px; }
+display: flex; align-items: center; justify-content: center; border-radius: 4px;
+}
 .xb:hover { background: #ef444422; }
 
-.acc { display: flex; gap: 10px; margin: 14px 0 22px; flex-wrap: wrap; align-items: center; }
-.btn { padding: 9px 18px; border: none; border-radius: 7px;
-font-size: 13px; font-weight: 600; cursor: pointer; transition: all .15s; }
+/* acciones */
+.acc { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; align-items: center; }
+
+.btn {
+padding: 10px 20px; border: none; border-radius: 8px;
+font-size: 13px; font-weight: 700; cursor: pointer; transition: all .15s;
+display: flex; align-items: center; gap: 7px;
+}
 .ba  { background: #1f2d40; color: #facc15; border: 1px solid #facc15; }
 .ba:hover { background: #facc15; color: #111; }
-.bp  { background: #facc15; color: #111; }
-.bp:hover { background: #eab308; }
 .bc  { background: #1f2d40; color: #9ca3af; border: 1px solid #2d4059; }
+.bc:hover { background: #2d3748; }
+.bp  { background: #facc15; color: #111; font-size: 14px; padding: 11px 26px; }
+.bp:hover { background: #eab308; transform: translateY(-1px); box-shadow: 0 4px 14px #facc1544; }
+.bp:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
 
-.iva-box { margin-left: auto; display: flex; align-items: center;
-gap: 8px; font-size: 13px; color: #ccc; }
-.iva-box input[type=checkbox] { width:16px; height:16px; accent-color:#facc15; cursor:pointer; }
-.iva-box input[type=number]   {
-width: 56px; background: #1f2d40; border: 1px solid #2d4059;
-border-radius: 5px; color: #fff; padding: 5px 8px; font-size: 13px; outline: none;
+/* iva toggle (oculto pero funcional) */
+.iva-opt { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #9ca3af; margin-left: auto; }
+.iva-opt input[type=checkbox] { accent-color: #facc15; width:15px; height:15px; cursor:pointer; }
+.iva-opt input[type=number] {
+width:54px; background:#1f2d40; border:1px solid #2d4059;
+border-radius:5px; color:#fff; padding:5px 8px; font-size:13px; outline:none;
 }
 
-/* ===================== HOJA ===================== */
+/* ========== HOJA ========== */
 #wrap {
 background: #0d1117;
-padding: 28px 16px 50px;
+padding: 28px 16px 60px;
 display: flex;
 justify-content: center;
 }
 
-/* A4 a 96dpi = 794×1123px */
 #hoja {
 background: #fff;
 color: #111;
 width: 794px;
 min-height: 1123px;
-padding: 36px 40px 50px 40px;
+padding: 36px 40px 60px 40px;
 font-family: Arial, Helvetica, sans-serif;
 font-size: 12px;
 position: relative;
@@ -106,7 +117,7 @@ box-shadow: 0 8px 40px #0009;
 line-height: 1.3;
 }
 
-/* — Logo + título — */
+/* Logo */
 .top {
 display: flex;
 justify-content: space-between;
@@ -114,49 +125,23 @@ align-items: flex-start;
 margin-bottom: 16px;
 }
 
-/* Logo negro idéntico al PDF */
 .logo {
-width: 148px;
-height: 90px;
-background: #111;
-border-radius: 6px;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-padding: 6px;
-flex-shrink: 0;
+width: 148px; height: 90px;
+background: #111; border-radius: 6px;
+display: flex; flex-direction: column;
+align-items: center; justify-content: center;
+padding: 6px; flex-shrink: 0;
 }
 .logo-icons { display: flex; gap: 6px; align-items: center; margin-bottom: 2px; }
-.logo-bolt {
-width: 28px; height: 28px; fill: #fff;
-}
-.logo-snow {
-width: 28px; height: 28px; fill: #fff;
-}
-.logo-mm {
-font-family: Arial Black, Arial, sans-serif;
-font-weight: 900;
-font-size: 22px;
-color: #4ec3f7;
-letter-spacing: -1px;
-line-height: 1;
-}
+.logo-mm { font-family: Arial Black, Arial, sans-serif; font-weight: 900; font-size: 22px; color: #4ec3f7; letter-spacing: -1px; line-height: 1; }
 .logo-amp { color: #fff; font-size: 22px; font-weight: 900; }
-.logo-sub {
-font-family: Arial Black, Arial, sans-serif;
-font-size: 11px;
-font-weight: 900;
-color: #fff;
-letter-spacing: 2px;
-margin-top: 1px;
-}
+.logo-sub { font-family: Arial Black, Arial, sans-serif; font-size: 11px; font-weight: 900; color: #fff; letter-spacing: 2px; margin-top: 1px; }
 
 .titulo-box { text-align: right; }
 .titulo-box h2 { font-size: 34px; font-weight: 700; line-height: 1; color: #111; }
 .titulo-box .cnum { font-size: 14px; color: #444; margin-top: 4px; }
 
-/* — Empresa + cliente — */
+/* Info */
 .info {
 display: flex;
 justify-content: space-between;
@@ -164,98 +149,51 @@ align-items: flex-start;
 margin-bottom: 30px;
 gap: 10px;
 }
-
-.empresa {
-font-size: 12px;
-line-height: 1.85;
-text-align: center;
-min-width: 150px;
-}
+.empresa { font-size: 12px; line-height: 1.85; text-align: center; min-width: 150px; }
 .empresa strong { font-size: 13.5px; font-weight: 700; display: block; }
 
-.cli-tbl {
-border-collapse: collapse;
-font-size: 12.5px;
-flex: 1;
-max-width: 430px;
-}
+.cli-tbl { border-collapse: collapse; font-size: 12.5px; flex: 1; max-width: 430px; }
 .cli-tbl td { border: 1px solid #bbb; padding: 6px 12px; }
-.cli-tbl td:first-child {
-font-weight: 700;
-background: #f0f0f0;
-width: 75px;
-text-align: left;
-}
-.cli-tbl td:last-child { text-align: left; }
+.cli-tbl td:first-child { font-weight: 700; background: #f0f0f0; width: 75px; }
 
-/* — Tabla ítems — */
-.itbl {
-width: 100%;
-border-collapse: collapse;
-font-size: 12.5px;
-margin-bottom: 16px;
-}
-.itbl th {
-border: 1px solid #bbb;
-padding: 8px 10px;
-font-weight: 700;
-background: #fff;
-}
-.itbl td {
-border: 1px solid #bbb;
-padding: 7px 10px;
-vertical-align: middle;
-}
+/* Tabla ítems */
+.itbl { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 16px; }
+.itbl th { border: 1px solid #bbb; padding: 8px 10px; font-weight: 700; background: #fff; }
+.itbl td { border: 1px solid #bbb; padding: 7px 10px; vertical-align: middle; }
 .itbl tr:nth-child(even) td { background: #f9f9f9; }
-
 .itbl th:nth-child(1), .itbl td:nth-child(1) { text-align: center; width: 52px; }
 .itbl th:nth-child(2), .itbl td:nth-child(2) { text-align: left; }
 .itbl th:nth-child(3), .itbl td:nth-child(3) { text-align: right; width: 100px; }
 .itbl th:nth-child(4), .itbl td:nth-child(4) { text-align: right; width: 115px; }
 
-/* — Totales — */
-.tots {
-display: flex;
-justify-content: flex-end;
-margin-bottom: 60px;
-}
-.ttbl {
-border-collapse: collapse;
-font-size: 12.5px;
-min-width: 265px;
-}
+/* Totales */
+.tots { display: flex; justify-content: flex-end; margin-bottom: 60px; }
+.ttbl { border-collapse: collapse; font-size: 12.5px; min-width: 265px; }
 .ttbl td { border: 1px solid #bbb; padding: 5px 14px; }
 .ttbl td:first-child { font-weight: 700; background: #f0f0f0; }
 .ttbl td:last-child  { text-align: right; min-width: 110px; }
-.ttbl .tf td         { font-weight: 900; font-size: 13.5px; }
+.ttbl .tf td { font-weight: 900; font-size: 13.5px; }
 
-/* — Firma — */
+/* Firma */
 .firma {
-position: absolute;
-bottom: 36px;
-left: 40px;
-font-size: 11.5px;
-line-height: 1.7;
+position: absolute; bottom: 36px; left: 40px;
+font-size: 11.5px; line-height: 1.7;
 }
 .firma strong { font-size: 13px; font-weight: 700; display: block; }
 
-/* — Watermark lateral — */
+/* Watermark */
 .wm {
-position: absolute;
-right: -18px;
-top: 50%;
+position: absolute; right: -18px; top: 50%;
 transform: translateY(-50%) rotate(90deg);
-font-size: 8px;
-color: #aaa;
-white-space: nowrap;
+font-size: 8px; color: #aaa; white-space: nowrap;
 }
 
-/* ===================== PRINT ===================== */
+/* Print / PDF */
 @media print {
 body, #wrap { background: #fff; }
 #panel { display: none !important; }
-#wrap   { padding: 0; }
-#hoja   { box-shadow: none; width: 100%; min-height: auto; padding: 18px 28px 40px; }
+#wrap  { padding: 0; }
+#hoja  { box-shadow: none; width: 100%; min-height: auto; padding: 18px 28px 40px; }
 }
 </style>
 
@@ -290,15 +228,18 @@ body, #wrap { background: #fff; }
   </table>
 
   <div class="acc">
-    <button class="btn ba" onclick="add()">+ Agregar ítem</button>
+    <button class="btn ba" onclick="add()">＋ Agregar ítem</button>
     <button class="btn bc" onclick="clear2()">🗑️ Limpiar</button>
-    <button class="btn bp" onclick="window.print()">🖨️ Imprimir / PDF</button>
-    <div class="iva-box">
-      <input type="checkbox" id="fv" checked>
+    <!-- IVA opcional, oculto por defecto -->
+    <div class="iva-opt" style="display:none">
+      <input type="checkbox" id="fv">
       <label for="fv">IVA</label>
       <input type="number" id="fvp" value="19" min="0" max="100">
       <span>%</span>
     </div>
+    <button class="btn bp" id="btnPdf" onclick="guardarPDF()">
+      ⬇️ Guardar PDF
+    </button>
   </div>
 </div>
 
@@ -307,43 +248,34 @@ body, #wrap { background: #fff; }
 <div id="wrap">
 <div id="hoja">
 
-  <!-- Encabezado -->
-
   <div class="top">
     <div class="logo">
       <div class="logo-icons">
-        <!-- Rayo -->
-        <svg class="logo-bolt" viewBox="0 0 24 24">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
           <path d="M13 2L4.5 13.5H11L10 22L19.5 10H13L13 2Z" fill="#fff"/>
         </svg>
-        <!-- Copo de nieve -->
-        <svg class="logo-snow" viewBox="0 0 24 24">
-          <path d="M12 2v20M2 12h20M5.636 5.636l12.728 12.728M18.364 5.636L5.636 18.364" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"/>
-          <circle cx="12" cy="12" r="2" fill="#fff"/>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+          <line x1="12" y1="2" x2="12" y2="22" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          <line x1="2" y1="12" x2="22" y2="12" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          <line x1="5.636" y1="5.636" x2="18.364" y2="18.364" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          <line x1="18.364" y1="5.636" x2="5.636" y2="18.364" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="12" cy="12" r="2.5" fill="#fff"/>
         </svg>
       </div>
       <div style="display:flex;align-items:baseline;gap:1px">
-        <span class="logo-mm">m</span>
-        <span class="logo-amp">&amp;</span>
-        <span class="logo-mm">m</span>
+        <span class="logo-mm">m</span><span class="logo-amp">&amp;</span><span class="logo-mm">m</span>
       </div>
       <div class="logo-sub">INGENIERÍA</div>
     </div>
-
-
-<div class="titulo-box">
-  <h2>Cotización</h2>
-  <div class="cnum">No. <span id="pn">C-1-973</span></div>
-</div>
-
-
+    <div class="titulo-box">
+      <h2>Cotización</h2>
+      <div class="cnum">No. <span id="pn">C-1-973</span></div>
+    </div>
   </div>
-
-  <!-- Empresa + Cliente -->
 
   <div class="info">
     <div class="empresa">
-      <!-- ✏️ CAMBIA AQUÍ: nombre, NIT, dirección, tel y ciudad de tu empresa -->
+      <!-- ✏️ CAMBIA: nombre, NIT, dirección, tel, ciudad -->
       <strong>MANUEL CONDE</strong>
       NIT 7.376.566-6<br>
       CRA 7 H # 34B-30<br>
@@ -357,8 +289,6 @@ body, #wrap { background: #fff; }
     </table>
   </div>
 
-  <!-- Tabla ítems -->
-
   <table class="itbl">
     <thead>
       <tr>
@@ -371,15 +301,11 @@ body, #wrap { background: #fff; }
     <tbody id="pi"></tbody>
   </table>
 
-  <!-- Totales -->
-
   <div class="tots">
     <table class="ttbl" id="pt"></table>
   </div>
 
-  <!-- Firma -->
-
-  <!-- ✏️ CAMBIA AQUÍ: nombre, correo y teléfono del elaborador -->
+  <!-- ✏️ CAMBIA: nombre, correo y teléfono del elaborador -->
 
   <div class="firma">
     <strong>MANUEL DEL CRISTO PETRO</strong>
@@ -389,8 +315,8 @@ body, #wrap { background: #fff; }
 
   <div class="wm">Elaborado por Sligo S.A.S Nit: 830.048.145-8</div>
 
-</div><!-- #hoja -->
-</div><!-- #wrap -->
+</div>
+</div>
 
 <script>
 let items = [
@@ -406,7 +332,7 @@ let items = [
 document.getElementById('ff').value = new Date().toISOString().split('T')[0];
 
 function fmt(n){
-  return n.toLocaleString('es-CO',{minimumFractionDigits:2,maximumFractionDigits:2});
+  return n.toLocaleString('es-CO', { minimumFractionDigits:0, maximumFractionDigits:0 });
 }
 
 function renderForm(){
@@ -420,7 +346,7 @@ function renderForm(){
         oninput="items[${i}].desc=this.value;renderPreview()">${it.desc}</textarea></td>
 
 
-  <td><input type="number" value="${it.qty}" min="0" step="0.01" style="text-align:right"
+  <td><input type="number" value="${it.qty}" min="0" step="1" style="text-align:right"
     oninput="items[${i}].qty=parseFloat(this.value)||0;renderPreview()"></td>
   <td><input type="number" value="${it.price}" min="0" step="100" style="text-align:right"
     oninput="items[${i}].price=parseFloat(this.value)||0;renderPreview()"></td>
@@ -455,11 +381,13 @@ const ivaP   = parseFloat(document.getElementById(‘fvp’).value)||0;
 const ivaV   = usaIva ? Math.round(bruto * ivaP / 100) : 0;
 const total  = bruto + ivaV;
 
-document.getElementById(‘pt’).innerHTML = ` <tr><td>Total Bruto</td><td>${fmt(bruto)}</td></tr> <tr><td>Subtotal</td><td>${fmt(bruto)}</td></tr> ${usaIva?<tr><td>IVA ${ivaP}%</td><td>${fmt(ivaV)}</td></tr>:''} <tr class="tf"><td>Total a Pagar</td><td>${fmt(total)}</td></tr> `;
+document.getElementById(‘pt’).innerHTML = <tr><td>Total Bruto</td><td>${fmt(bruto)}</td></tr> <tr><td>Subtotal</td><td>${fmt(bruto)}</td></tr> ${usaIva ?<tr><td>IVA ${ivaP}%</td><td>${fmt(ivaV)}</td></tr>: ''} <tr class="tf"><td>Total a Pagar</td><td>${fmt(total)}</td></tr>;
 }
 
 function add(){ items.push({desc:’’,qty:1,price:0}); renderForm(); }
+
 function del(i){ if(items.length===1)return; items.splice(i,1); renderForm(); }
+
 function clear2(){
 if(!confirm(’¿Limpiar todo?’))return;
 items=[{desc:’’,qty:1,price:0}];
@@ -468,11 +396,34 @@ document.getElementById(‘fni’).value=’’;
 renderForm();
 }
 
+function guardarPDF(){
+const btn = document.getElementById(‘btnPdf’);
+btn.disabled = true;
+btn.textContent = ‘⏳ Generando…’;
+
+const num = document.getElementById(‘fn’).value || ‘cotizacion’;
+const nombre = Cotizacion-${num}.pdf;
+
+const opt = {
+margin:       0,
+filename:     nombre,
+image:        { type: ‘jpeg’, quality: 0.98 },
+html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
+jsPDF:        { unit: ‘px’, format: [794, 1123], orientation: ‘portrait’ }
+};
+
+html2pdf().set(opt).from(document.getElementById(‘hoja’)).save()
+.then(()=>{
+btn.disabled = false;
+btn.innerHTML = ‘⬇️ Guardar PDF’;
+});
+}
+
 [‘fn’,‘ff’,‘fp’,‘fni’].forEach(id=>
-document.getElementById(id).addEventListener(‘input’,renderPreview)
+document.getElementById(id).addEventListener(‘input’, renderPreview)
 );
-document.getElementById(‘fv’).addEventListener(‘change’,renderPreview);
-document.getElementById(‘fvp’).addEventListener(‘input’,renderPreview);
+document.getElementById(‘fv’).addEventListener(‘change’, renderPreview);
+document.getElementById(‘fvp’).addEventListener(‘input’, renderPreview);
 
 renderForm();
 </script>
