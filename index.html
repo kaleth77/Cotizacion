@@ -637,7 +637,7 @@ function limpiarTodo() {
     renderForm();
 }
 
-function guardarPDF() {
+async function guardarPDF() {
 
     const btn =
     document.getElementById('btnPdf');
@@ -653,7 +653,7 @@ function guardarPDF() {
 
         margin: 0,
 
-        filename: 'Cotizacion-' + numero + '.pdf',
+        filename: numero + '.pdf',
 
         image: {
             type: 'jpeg',
@@ -661,7 +661,8 @@ function guardarPDF() {
         },
 
         html2canvas: {
-            scale: 2
+            scale: 2,
+            useCORS: true
         },
 
         jsPDF: {
@@ -672,17 +673,52 @@ function guardarPDF() {
 
     };
 
-    html2pdf()
-    .set(opciones)
-    .from(document.getElementById('hoja'))
-    .save()
-    .then(function(){
+    try {
 
-        btn.disabled = false;
+        const element =
+        document.getElementById('hoja');
 
-        btn.innerHTML = '⬇️ Guardar PDF';
+        const worker = html2pdf()
+        .set(opciones)
+        .from(element);
 
-    });
+        const pdfBlob =
+        await worker.outputPdf('blob');
+
+        const fileURL =
+        URL.createObjectURL(pdfBlob);
+
+        const isIOS =
+        /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+        if(isIOS){
+
+            window.open(fileURL, '_blank');
+
+        }else{
+
+            const link =
+            document.createElement('a');
+
+            link.href = fileURL;
+
+            link.download = numero + '.pdf';
+
+            link.click();
+
+        }
+
+    } catch(error){
+
+        alert('Error al generar PDF');
+
+        console.log(error);
+
+    }
+
+    btn.disabled = false;
+
+    btn.innerHTML = '⬇️ Guardar PDF';
 
 }
 
@@ -709,5 +745,6 @@ document
 renderForm();
 
 </script>
+
 </body>
 </html>
