@@ -167,10 +167,11 @@ body{
 }
 
 #hoja{
-    width:794px;
+    width:210mm;
+    min-height:297mm;
     background:white;
     color:black;
-    padding:45px;
+    padding:18mm;
     box-shadow:0 10px 30px rgba(0,0,0,.5);
     overflow:hidden;
 }
@@ -331,6 +332,11 @@ body{
 
 /* PDF FIX */
 
+@page{
+    size:A4;
+    margin:0;
+}
+
 @media print{
 
     body{
@@ -346,9 +352,11 @@ body{
     }
 
     #hoja{
-        box-shadow:none;
-        width:100%;
+        width:210mm;
+        min-height:297mm;
         margin:0;
+        box-shadow:none;
+        page-break-after:avoid;
     }
 
 }
@@ -747,19 +755,19 @@ async function guardarPDF() {
         },
 
         html2canvas: {
-            scale: 3,
+            scale: 4,
             useCORS: true,
             scrollY: 0
         },
 
         jsPDF: {
-            unit: 'px',
-            format: [794, 1123],
+            unit: 'mm',
+            format: 'a4',
             orientation: 'portrait'
         },
 
         pagebreak: {
-            mode: ['avoid-all']
+            mode: ['css','legacy']
         }
 
     };
@@ -769,59 +777,10 @@ async function guardarPDF() {
         const element =
         document.getElementById('hoja');
 
-        const pdfBlob =
         await html2pdf()
         .set(opciones)
         .from(element)
-        .outputPdf('blob');
-
-        const archivo =
-        new File(
-            [pdfBlob],
-            numero + '.pdf',
-            {
-                type: 'application/pdf'
-            }
-        );
-
-        // iPhone compartir / guardar
-        if (
-            navigator.share &&
-            navigator.canShare &&
-            navigator.canShare({ files:[archivo] })
-        ) {
-
-            await navigator.share({
-                files: [archivo],
-                title: numero,
-                text: 'Cotización PDF'
-            });
-
-        } else {
-
-            const url =
-            URL.createObjectURL(pdfBlob);
-
-            const link =
-            document.createElement('a');
-
-            link.href = url;
-
-            link.download = numero + '.pdf';
-
-            document.body.appendChild(link);
-
-            link.click();
-
-            document.body.removeChild(link);
-
-            setTimeout(function(){
-
-                URL.revokeObjectURL(url);
-
-            },1000);
-
-        }
+        .save();
 
     } catch(error){
 
