@@ -162,18 +162,21 @@ body{
 #wrap{
     display:flex;
     justify-content:center;
+    align-items:flex-start;
     padding:30px;
     overflow:auto;
 }
 
 #hoja{
-    width:210mm;
-    min-height:297mm;
+    width:794px;
+    min-height:1123px;
     background:white;
     color:black;
-    padding:18mm;
+    padding:55px;
+    margin:auto;
     box-shadow:0 10px 30px rgba(0,0,0,.5);
     overflow:hidden;
+    position:relative;
 }
 
 /* HEADER */
@@ -332,11 +335,6 @@ body{
 
 /* PDF FIX */
 
-@page{
-    size:A4;
-    margin:0;
-}
-
 @media print{
 
     body{
@@ -352,11 +350,9 @@ body{
     }
 
     #hoja{
-        width:210mm;
-        min-height:297mm;
-        margin:0;
         box-shadow:none;
-        page-break-after:avoid;
+        width:100%;
+        margin:0;
     }
 
 }
@@ -743,6 +739,9 @@ async function guardarPDF() {
     const numero =
     document.getElementById('fn').value || 'cotizacion';
 
+    const element =
+    document.getElementById('hoja');
+
     const opciones = {
 
         margin: 0,
@@ -761,26 +760,72 @@ async function guardarPDF() {
         },
 
         jsPDF: {
-            unit: 'mm',
-            format: 'a4',
+            unit: 'px',
+            format: [794,1123],
             orientation: 'portrait'
-        },
-
-        pagebreak: {
-            mode: ['css','legacy']
         }
 
     };
 
     try {
 
-        const element =
-        document.getElementById('hoja');
-
+        const pdfBlob =
         await html2pdf()
         .set(opciones)
         .from(element)
-        .save();
+        .outputPdf('blob');
+
+        const archivo =
+        new File(
+            [pdfBlob],
+            numero + '.pdf',
+            {
+                type:'application/pdf'
+            }
+        );
+
+        // iPhone compartir
+        if(
+            navigator.share &&
+            navigator.canShare &&
+            navigator.canShare({
+                files:[archivo]
+            })
+        ){
+
+            await navigator.share({
+                files:[archivo],
+                title:numero,
+                text:'Cotización PDF'
+            });
+
+        }else{
+
+            // Android / PC
+            const url =
+            URL.createObjectURL(pdfBlob);
+
+            const link =
+            document.createElement('a');
+
+            link.href = url;
+
+            link.download =
+            numero + '.pdf';
+
+            document.body.appendChild(link);
+
+            link.click();
+
+            document.body.removeChild(link);
+
+            setTimeout(function(){
+
+                URL.revokeObjectURL(url);
+
+            },1000);
+
+        }
 
     } catch(error){
 
